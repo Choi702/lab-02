@@ -9,7 +9,7 @@
 <body>
   <header>
     <h1>The Gallery of Horns</h1>
-    <select>
+    <select id ="dropdown">
       <option value="default">Filter by Keyword</option>
     </select>
   </header>
@@ -37,11 +37,6 @@
 
 
 <!-- 
-How are we implementing it?
-Use AJAX, specifically $.ajax(), to read the provided JSON file.
-Each object should become a new instance of a constructor function. Refer to the data to determine the necessary properties.
-Use jQuery to make a copy of the HTML template of the photo component. For each object, fill in the duplicated template with its properties, then append the copy to the DOM.
-
 Feature #2: Filter images
 Why are we implementing this feature?
 As a user, I want to be able to filter the images so that I can view only images that match a keyword.
@@ -51,6 +46,7 @@ Given that a user clicks on the dropdown menu When the user selects one of the o
 How are we implementing it?
 Create a <select> element which contains unique <option> elements extracted dynamically from the JSON file, one for each keyword.
 Use an event handler to respond when the user chooses an option from the select menu. Hide all of the images, then show those whose keyword matches the option chosen.
+
 Feature #3: Style the application
 Why are we implementing this feature?
 As a user, I want a simple, clean looking UI so that my photo gallery clearly displays the images in a grid like pattern.
