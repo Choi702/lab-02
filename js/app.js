@@ -23,6 +23,7 @@ $.ajax('./data/page-1.json').then(data => {
     let photoObject = new Photo(photo.image_url, photo.title, photo.description, photo.keyword, photo.horns);
     let $newPhoto = $template.clone();
     $newPhoto.attr('class', photoObject.key);
+    $newPhoto.attr('class', 'photo');
     $newPhoto.find('h2').text(photoObject.title);
     $newPhoto.find('p').text(photoObject.desc);
     $newPhoto.find('img').attr('src', photoObject.img);
@@ -40,12 +41,26 @@ $.ajax('./data/page-1.json').then(data => {
 
 $dropdown.change(function () {
 
-  $container.hide();
+  // $container.hide();
+  let $photos = $('.photo');
+  $photos.hide();
 
-  let val = $(this).val();
-  let $photoToShow = $('.' + val)
-  $photoToShow.show();
- 
-  console.log($photoToShow);
+
+  // let val = $(this).val();
+  // let $photoToShow = $('.' + val);
+  // $photos.each(photo =>{
+  
+  //   let $photo =  $photos[photo];
+  //   $photo.show();
+
+  //   console.log($photo);
+  //   })
+    
+  
+    
+    
+
+
+
 })
 

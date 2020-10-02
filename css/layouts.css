@@ -1,0 +1,23 @@
+#photo-container{
+  position: relative;
+  overflow: auto;
+  
+}
+
+#photo-template {
+  float: left;
+  font-style: oblique;
+  width: 100px;
+  margin: 10px;
+  padding: 5px
+  
+  
+}
+
+img {
+width: 100px;
+padding: 5px;
+
+  
+}
+
