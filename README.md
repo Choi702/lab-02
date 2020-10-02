@@ -2,12 +2,12 @@
 
 
 
-Number and name of feature: ________________________________
+Number and name of feature: feature number 1: display images.
 
-Estimate of time needed to complete: _____
+Estimate of time needed to complete: 45 minutes.
 
-Start time: _____
+Start time: 5:30pm
 
-Finish time: _____
+Finish time: 7:30pm
 
-Actual time needed to complete: _____
+Actual time needed to complete: 2 Hours.
