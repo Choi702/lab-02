@@ -1,6 +1,8 @@
 'use strict';
 
-let $template = $('#photo-template');
+let $template = $('#photo-template').html();
+console.log($template);
+
 let $container = $('#photo-container');
 let $dropdown = $('#dropdown');
 let $page1 = $('#page1');
@@ -28,15 +30,13 @@ const showPhotos = function(data){
     }
  
     let photoObject = new Photo(photo.image_url, photo.title, photo.description, photo.keyword, photo.horns, page);
-    let $newPhoto = $template.clone();
 
-    $newPhoto.removeAttr('id');
-    $newPhoto.attr('class', `${photoObject.key} ${photoObject.page} photo`);
-    $newPhoto.find('h2').text(photoObject.title);
-    $newPhoto.find('p').text(photoObject.desc);
-    $newPhoto.find('img').attr('src', photoObject.img);
+    //$newPhoto.attr('class', `${photoObject.key} ${photoObject.page} photo`);
     
-    $container.append($newPhoto)
+    let rendered = Mustache.render($template, photoObject);
+  
+    
+    $container.append(rendered);
     
     if (keyWords.indexOf(photoObject.key) == -1) {
       keyWords.push(photoObject.key);
