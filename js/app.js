@@ -16,13 +16,13 @@ function Photo(img, title, desc, key, horns) {
 
 let keyWords = [];
 
-$.ajax('./data/page-1.json').then(data => {
+let getData = function(data){
 
   data.forEach(photo => {
-
+    
     let photoObject = new Photo(photo.image_url, photo.title, photo.description, photo.keyword, photo.horns);
     let $newPhoto = $template.clone();
-    
+
     $newPhoto.removeAttr('id');
     $newPhoto.attr('class', `${photoObject.key} photo`);
     $newPhoto.find('h2').text(photoObject.title);
@@ -38,7 +38,8 @@ $.ajax('./data/page-1.json').then(data => {
       )
     }
   });
-})
+}
+
 
 $dropdown.change(function () {
 
@@ -54,3 +55,5 @@ $dropdown.change(function () {
   }
 })
 
+$.ajax('./data/page-1.json').then(getData);
+$.ajax('./data/page-2.json').then(getData);
