@@ -5,26 +5,33 @@ let $container = $('#photo-container');
 let $dropdown = $('#dropdown');
 let $page1 = $('#page1');
 let $page2 = $('#page2');
+let keyWords = [];
 
-function Photo(img, title, desc, key, horns) {
+function Photo(img, title, desc, key, horns, page) {
   this.img = img;
   this.title = title;
   this.desc = desc;
   this.key = key;
   this.horns = horns;
+  this.page = page;
 }
 
-let keyWords = [];
-
-let getData = function(data){
-
+const showPhotos = function(data){
   data.forEach(photo => {
     
-    let photoObject = new Photo(photo.image_url, photo.title, photo.description, photo.keyword, photo.horns);
+    //determine page number from url
+    let page;
+    if (this.url === './data/page-1.json'){
+      page = 1;
+    } else if (this.url === './data/page-2.json'){
+      page = 2;
+    }
+ 
+    let photoObject = new Photo(photo.image_url, photo.title, photo.description, photo.keyword, photo.horns, page);
     let $newPhoto = $template.clone();
 
     $newPhoto.removeAttr('id');
-    $newPhoto.attr('class', `${photoObject.key} photo`);
+    $newPhoto.attr('class', `${photoObject.key} ${photoObject.page} photo`);
     $newPhoto.find('h2').text(photoObject.title);
     $newPhoto.find('p').text(photoObject.desc);
     $newPhoto.find('img').attr('src', photoObject.img);
@@ -40,7 +47,6 @@ let getData = function(data){
   });
 }
 
-
 $dropdown.change(function () {
 
   let $photos = $('.photo');
@@ -55,5 +61,24 @@ $dropdown.change(function () {
   }
 })
 
-$.ajax('./data/page-1.json').then(getData);
-$.ajax('./data/page-2.json').then(getData);
+$page1.click(function () {
+  let $photos = $('.photo');
+  let $page1 = $('.1');
+  console.log($page1);
+
+  $photos.hide();
+  $page1.show();  
+});
+
+
+$page2.click(function () {
+  let $photos = $('.photo');
+  let $page2 = $('.2');
+  console.log($page2);
+
+  $photos.hide();
+  $page2.show();  
+});
+
+$.ajax('./data/page-1.json').then(showPhotos);
+$.ajax('./data/page-2.json').then(showPhotos);
