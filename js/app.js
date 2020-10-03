@@ -1,68 +1,84 @@
 'use strict';
 
-let $template = $('#photo-template');
+
+let $template = $('#photo-template').html();
 let $container = $('#photo-container');
 let $dropdown = $('#dropdown');
-function Photo(img, title, desc, key, horns) {
+let $page1 = $('#page1');
+let $page2 = $('#page2');
+let keyWords = [];
+
+let photoArray = [];
+
+function Photo(img, title, desc, key, horns, page) {
   this.img = img;
   this.title = title;
   this.desc = desc;
   this.key = key;
   this.horns = horns;
+  this.page = page;
 
-
+  photoArray.push(this);
 }
 
-let keyWords = [];
-
-
-$.ajax('./data/page-1.json').then(data => {
-
+const showPhotos = function(data){
+  console.log(data);
   data.forEach(photo => {
+    
+    //determine page number from url
+    let page;
+    if (this.url === './data/page-1.json'){
+      page = 1;
+    } else if (this.url === './data/page-2.json'){
+      page = 2;
+    }
 
-    let photoObject = new Photo(photo.image_url, photo.title, photo.description, photo.keyword, photo.horns);
-    let $newPhoto = $template.clone();
-    $newPhoto.attr('class', `${photoObject.key} photo`);
-    // $newPhoto.attr('class', 'photo'); //if we set the class twice, it overrides the first and that was what was happening from line 25 and 26. It was erasing the key class
-    $newPhoto.find('h2').text(photoObject.title);
-    $newPhoto.find('p').text(photoObject.desc);
-    $newPhoto.find('img').attr('src', photoObject.img);
-    $container.append($newPhoto)
+    let photoObject = new Photo(photo.image_url, photo.title, photo.description, photo.keyword, photo.horns, page);
+    
     if (keyWords.indexOf(photoObject.key) == -1) {
       keyWords.push(photoObject.key);
       $dropdown.append(
         $('<option></option>').text(photoObject.key)
       )
     }
-
   });
 
-})
+  photoArray.sort((a,b) => 
+     a.title > b.title ? 1:-1
+  );
+
+  console.log(photoArray);
+
+  photoArray.forEach(photo => {
+    let rendered = Mustache.render($template, photo);
+    $container.append(rendered);
+  });
+}
 
 $dropdown.change(function () {
 
-  // $container.hide();
   let $photos = $('.photo');
-  $photos.hide();
-
-
   let val = $(this).val();
-  console.log(val);
   let $photoToShow = $('.' + val);
-  $photoToShow.show();
 
-  // $photos.each(photo =>{
-  
-  //   let $photo =  $photos[photo];
-
-  //   console.log($photo);
-  //   })
-    
-  
-    
-    
-
-
-
+  if (val === 'default'){
+    $photos.show();
+  } else {
+    $photos.hide();
+    $photoToShow.show();   
+  }
 })
 
+$page1.click(function () {
+  $container.empty();
+  photoArray = [];
+  $.ajax('./data/page-1.json').then(showPhotos);
+});
+
+$page2.click(function () {
+  $container.empty();
+  photoArray = [];
+  $.ajax('./data/page-2.json').then(showPhotos);
+});
+
+$.ajax('./data/page-1.json').then(showPhotos);

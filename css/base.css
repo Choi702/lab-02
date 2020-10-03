@@ -10,11 +10,11 @@ body{
 }
 
 main{
-  margin: 12px 100px;
+  margin: 12px auto;
 }
 
 p{
-  font-size: 12px;
+  font-size: 10px;
 }
 
 h1{
