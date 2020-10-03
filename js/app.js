@@ -27,7 +27,7 @@ $.ajax('./data/page-1.json').then(data => {
     $newPhoto.find('p').text(photoObject.desc);
     $newPhoto.find('img').attr('src', photoObject.img);
     $container.append($newPhoto)
-    if (keyWords.indexOf(photoObject.key) == -1) {
+    if (keyWords.indexOf(photoObject.key) === -1) {
       keyWords.push(photoObject.key);
       $dropdown.append(
         $('<option></option>').text(photoObject.key)
