@@ -65,4 +65,4 @@ Number and name of feature: Feature #4
 Estimate of time needed to complete: 2hr
 Start time: 2:40pm
 Finish time:
-Actual time needed to complete:
+Actual time needed to complete: 2hr (in progress)
