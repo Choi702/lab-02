@@ -60,3 +60,9 @@ Estimate of time needed to complete: 1.5hr
 Start time: 2:30pm
 Finish time: 2:40pm
 Actual time needed to complete: 10m
+
+Number and name of feature: Feature #4
+Estimate of time needed to complete: 2hr
+Start time: 2:40pm
+Finish time:
+Actual time needed to complete:
