@@ -30,12 +30,8 @@ const showPhotos = function(data){
     }
  
     let photoObject = new Photo(photo.image_url, photo.title, photo.description, photo.keyword, photo.horns, page);
-
-    //$newPhoto.attr('class', `${photoObject.key} ${photoObject.page} photo`);
     
     let rendered = Mustache.render($template, photoObject);
-  
-    
     $container.append(rendered);
     
     if (keyWords.indexOf(photoObject.key) == -1) {
