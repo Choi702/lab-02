@@ -64,5 +64,5 @@ Actual time needed to complete: 10m
 Number and name of feature: Feature #4
 Estimate of time needed to complete: 2hr
 Start time: 2:40pm
-Finish time:
-Actual time needed to complete: 2hr (in progress)
+Finish time: (completed over 2 sessions)
+Actual time needed to complete: 2:20hr
