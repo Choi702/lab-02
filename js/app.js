@@ -1,58 +1,122 @@
 'use strict';
 
-let $template = $('#photo-template');
+let $template = $('#photo-template').html();
 let $container = $('#photo-container');
 let $dropdown = $('#dropdown');
-function Photo(img, title, desc, key, horns) {
+let $dropdown2 = $('#dropdown2');
+let $page1 = $('#page1');
+let $page2 = $('#page2');
+let keyWords = [];
+
+let photoArray = [];
+
+function Photo(img, title, desc, key, horns, page) {
   this.img = img;
   this.title = title;
   this.desc = desc;
   this.key = key;
   this.horns = horns;
+  this.page = page;
 
-
+  photoArray.push(this);
 }
 
-let keyWords = [];
-
-
-$.ajax('./data/page-1.json').then(data => {
-
+const showPhotos = function(data){
   data.forEach(photo => {
+    
+    //determine page number from url
+    let page;
+    if (this.url === './data/page-1.json'){
+      page = 1;
+    } else if (this.url === './data/page-2.json'){
+      page = 2;
+    }
 
-    let photoObject = new Photo(photo.image_url, photo.title, photo.description, photo.keyword, photo.horns);
-    let $newPhoto = $template.clone();
-    $newPhoto.attr('class', `${photoObject.key} photo`);
-    $newPhoto.find('h2').text(photoObject.title);
-    $newPhoto.find('p').text(photoObject.desc);
-    $newPhoto.find('img').attr('src', photoObject.img);
-    $container.append($newPhoto)
-    if (keyWords.indexOf(photoObject.key) === -1) {
+    let photoObject = new Photo(photo.image_url, photo.title, photo.description, photo.keyword, photo.horns, page);
+    
+    if (keyWords.indexOf(photoObject.key) == -1) {
       keyWords.push(photoObject.key);
       $dropdown.append(
         $('<option></option>').text(photoObject.key)
       )
     }
-
   });
 
+  photoArray.sort((a,b) => 
+     a.title > b.title ? 1:-1
+  );
+
+  photoArray.forEach(photo => {
+    let rendered = Mustache.render($template, photo);
+    $container.append(rendered);
+  });
+}
+
+
+// keyword dropdown event handler
+$dropdown.change(function () {
+
+  let $photos = $('.photo');
+  let val = $(this).val();
+  let $photoToShow = $('.' + val);
+
+  if (val === 'default'){
+    $photos.show();
+  } else {
+    $photos.hide();
+    $photoToShow.show();   
+  }
 })
 
-$dropdown.change(function () {
-  let $photos = $('.photo');
-  $photos.hide();
+// pagination button event handlers
+$page1.click(function () {
+  $container.empty();
+  photoArray = [];
+  $.ajax('./data/page-1.json').then(showPhotos);
+});
+
+$page2.click(function () {
+  $container.empty();
+  photoArray = [];
+  $.ajax('./data/page-2.json').then(showPhotos);
+});
+
+// sorting dropdown handler
+$dropdown2.change(function () {
   let val = $(this).val();
   console.log(val);
-  let $photoToShow = $('.' + val);
-  $photoToShow.show();
 
-})
+  if (val === 'horns'){
+
+    photoArray.sort((a, b) =>
+      a.horns > b.horns ? 1 : -1
+    );
+
+    $container.empty();
+
+    photoArray.forEach(photo => {
+      let rendered = Mustache.render($template, photo);
+      $container.append(rendered);
+    });  
+  } else if (val === 'title'){
+    
+    photoArray.sort((a, b) =>
+    a.title > b.title ? 1 : -1
+  );
+
+  $container.empty();
+
+  photoArray.forEach(photo => {
+    let rendered = Mustache.render($template, photo);
+    $container.append(rendered);
+  });   
+  }
+});
+
+$.ajax('./data/page-1.json').then(showPhotos);
 
 
-
-
-
-
+ 
 
 
 
@@ -60,3 +124,4 @@ $dropdown.change(function () {
 
 // $newPhoto.attr('class', 'photo'); //if we set the class twice, it overrides the first and that was what was happening from line 25 and 26. It was erasing the key class
 
+ 

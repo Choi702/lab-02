@@ -1,23 +1,23 @@
 #photo-container{
-  position: relative;
-  overflow: auto;
-  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: flex-start;
 }
 
-#photo-template {
-  float: left;
+section {
   font-style: oblique;
   width: 100px;
   margin: 10px;
   padding: 5px
-  
-  
 }
 
 img {
-width: 100px;
-padding: 5px;
+  width: 100px;
+  padding: 5px;    
+}
 
-  
+#photo-template {
+  display: none;
 }
 
