@@ -116,8 +116,6 @@ $dropdown2.change(function () {
 $.ajax('./data/page-1.json').then(showPhotos);
 
 
-
-
  
 
 
