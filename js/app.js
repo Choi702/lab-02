@@ -1,9 +1,9 @@
 'use strict';
 
-
 let $template = $('#photo-template').html();
 let $container = $('#photo-container');
 let $dropdown = $('#dropdown');
+let $dropdown2 = $('#dropdown2');
 let $page1 = $('#page1');
 let $page2 = $('#page2');
 let keyWords = [];
@@ -22,7 +22,6 @@ function Photo(img, title, desc, key, horns, page) {
 }
 
 const showPhotos = function(data){
-  console.log(data);
   data.forEach(photo => {
     
     //determine page number from url
@@ -47,14 +46,14 @@ const showPhotos = function(data){
      a.title > b.title ? 1:-1
   );
 
-  console.log(photoArray);
-
   photoArray.forEach(photo => {
     let rendered = Mustache.render($template, photo);
     $container.append(rendered);
   });
 }
 
+
+// keyword dropdown event handler
 $dropdown.change(function () {
 
   let $photos = $('.photo');
@@ -69,6 +68,7 @@ $dropdown.change(function () {
   }
 })
 
+// pagination button event handlers
 $page1.click(function () {
   $container.empty();
   photoArray = [];
@@ -79,6 +79,38 @@ $page2.click(function () {
   $container.empty();
   photoArray = [];
   $.ajax('./data/page-2.json').then(showPhotos);
+});
+
+// sorting dropdown handler
+$dropdown2.change(function () {
+  let val = $(this).val();
+  console.log(val);
+
+  if (val === 'horns'){
+
+    photoArray.sort((a, b) =>
+      a.horns > b.horns ? 1 : -1
+    );
+
+    $container.empty();
+
+    photoArray.forEach(photo => {
+      let rendered = Mustache.render($template, photo);
+      $container.append(rendered);
+    });  
+  } else if (val === 'title'){
+    
+    photoArray.sort((a, b) =>
+    a.title > b.title ? 1 : -1
+  );
+
+  $container.empty();
+
+  photoArray.forEach(photo => {
+    let rendered = Mustache.render($template, photo);
+    $container.append(rendered);
+  });   
+  }
 });
 
 $.ajax('./data/page-1.json').then(showPhotos);
